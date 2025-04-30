@@ -1,0 +1,13 @@
+﻿@model NewsSite.Models.NewsItem
+
+<h1>حذف خبر</h1>
+<p>آیا مطمئن هستید که می‌خواهید این خبر را حذف کنید؟</p>
+
+<h3>@Model.Title</h3>
+<p>@Model.CreatedAt</p>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">حذف</button>
+    <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+</form>

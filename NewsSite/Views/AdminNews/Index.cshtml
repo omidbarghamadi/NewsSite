@@ -1,0 +1,45 @@
+﻿@model IEnumerable<NewsSite.Models.NewsItem>
+@{
+    var approvedCounts = ViewBag.ApprovedCounts as Dictionary<int, int>;
+    var pendingCounts = ViewBag.PendingCounts as Dictionary<int, int>;
+}
+<html dir="rtl">
+<h1 >مدیریت اخبار</h1>
+<br />
+<p><a href="@Url.Action("Create")" class="btn btn-success">افزودن خبر جدید</a></p>
+@if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+@if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+<table class="table">
+    <thead>
+        <tr>
+            <th>عنوان</th>
+            <th>تاریخ</th>
+            <th>عملیات</th>
+            <th>کامنت های تایید شده</th>
+            <th>کامنت های در حال بررسی</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var news in Model)
+        {
+            <tr>
+                <td>@news.Title</td>
+                <td>@news.CreatedAt.ToString("yyyy/MM/dd HH:mm")</td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = news.Id })" class="btn btn-sm btn-warning">ویرایش</a>
+                    <a href="@Url.Action("Delete", new { id = news.Id })" class="btn btn-sm btn-danger">حذف</a>
+                    <a href="@Url.Action("Comments", new { newsId  = news.Id })" class="btn btn-sm btn-info">کامنت‌ها</a>
+                </td>
+                <td>@(approvedCounts.ContainsKey(news.Id) ? approvedCounts[news.Id] : 0)</td>
+                <td>@(pendingCounts.ContainsKey(news.Id) ? pendingCounts[news.Id] : 0)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+</html>

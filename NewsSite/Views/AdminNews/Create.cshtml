@@ -1,0 +1,52 @@
+﻿@model NewsSite.Models.NewsItem
+
+@{
+    ViewData["Title"] = "افزودن خبر";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div dir="rtl" class="container mt-4 text-right">
+    <h2 class="mb-4">افزودن خبر جدید</h2>
+
+    @* @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    } *@
+
+    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Summary" class="control-label"></label>
+            <textarea asp-for="Summary" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Summary" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Content" class="control-label"></label>
+            <textarea asp-for="Content" class="form-control" rows="6"></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="CreatedAt"></label>
+            <input asp-for="CreatedAt" type="datetime-local" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-success mt-3">ثبت خبر</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

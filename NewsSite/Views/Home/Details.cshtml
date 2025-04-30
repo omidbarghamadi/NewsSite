@@ -1,0 +1,65 @@
+﻿@model NewsSite.Models.NewsItem
+
+@{
+    ViewData["Title"] = "جزئیات خبر";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div dir="rtl" class="container mt-4 text-right">
+    <h2 class="mb-3">@Model.Title</h2>
+    <p class="text-muted">@Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")</p>
+    <hr />
+    <p><strong>خلاصه:</strong> @Model.Summary</p>
+    <p><strong>متن کامل:</strong></p>
+    <p>@Model.Content</p>
+
+    <hr />
+
+    @* نمایش پیام موفقیت ثبت نظر *@
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    <h4 class="mt-5">ارسال نظر</h4>
+    <form asp-action="AddComment" method="post">
+        <input type="hidden" name="newsId" value="@Model.Id" />
+
+        <div class="form-group">
+            <label>نام:</label>
+            <input name="authors" class="form-control" required />
+        </div>
+
+        <div class="form-group mt-3">
+            <label>متن نظر:</label>
+            <textarea name="text" class="form-control" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">ارسال نظر</button>
+    </form>
+
+    <hr class="mt-5" />
+
+    <h4 class="mt-4">نظرات کاربران</h4>
+    @if (Model.Comments != null && Model.Comments.Any(c => c.IsApproved))
+    {
+        foreach (var comment in Model.Comments.Where(c => c.IsApproved).OrderByDescending(c => c.CreatedAt))
+        {
+            <div class="border rounded p-3 my-2">
+                نویسنده: <strong>@comment.Authors</strong>
+                <p>@comment.Text</p>
+                <small class="text-muted">@comment.CreatedAt.ToString("yyyy/MM/dd HH:mm")</small>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-muted">هیچ نظری ثبت نشده است.</p>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

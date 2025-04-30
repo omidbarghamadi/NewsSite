@@ -1,0 +1,43 @@
+﻿@model IEnumerable<NewsSite.Models.Comment>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+<html dir="rtl">
+<h1>مدیریت کامنت‌ها</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>نویسنده</th>
+            <th>متن</th>
+            <th>تاریخ</th>
+            <th>وضعیت</th>
+            <th>تغییر وضعیت</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.Authors</td>
+                <td>@c.Text</td>
+                <td>@c.CreatedAt.ToString("yyyy/MM/dd HH:mm")</td>
+                <td>@(c.IsApproved ? "تایید شده✅" : "در حال بررسی")</td>
+                <td>
+                    @if (!c.IsApproved)
+                    {
+                        <a href="@Url.Action("ApproveComment", new { commentId = c.Id })" class="btn btn-sm btn-success">تأیید</a>
+                    }
+                    <a href="@Url.Action("RejectComment", new { commentId = c.Id })" style="background-color:orange" class="btn btn-sm btn-danger">رد</a>
+                    <a href="@Url.Action("DeleteComment", new { commentId = c.Id })" class="btn btn-sm btn-danger">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</html>

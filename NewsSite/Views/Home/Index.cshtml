@@ -1,0 +1,11 @@
+﻿@model IEnumerable<NewsSite.Models.NewsItem>
+
+<h1 dir="rtl" class="container mt-4 text-right">اخبار</h1>
+@foreach (var news in Model)
+{
+    <div dir="rtl" class="container mt-4 text-right" class="news-summary">
+        <h2><a href="@Url.Action("Details", "Home", new { id = news.Id })">@news.Title</a></h2>
+        <p>@news.Summary</p>
+        <p><small>تاریخ و زمان: @news.CreatedAt.ToString("yyyy/MM/dd   HH:mm")</small></p>
+    </div>
+}
