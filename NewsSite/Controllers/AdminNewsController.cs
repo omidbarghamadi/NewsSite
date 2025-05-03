@@ -50,14 +50,23 @@ namespace NewsSite.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(NewsItem newsItem)
         {
+            if (newsItem.ImageFile != null)
+            {
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(newsItem.ImageFile.FileName);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await newsItem.ImageFile.CopyToAsync(stream);
+                }
+                newsItem.ImagePath = "/images/" + fileName;
+            }
+
+            newsItem.CreatedAt = DateTime.Now;
+
             _context.NewsItem.Add(newsItem);
             await _context.SaveChangesAsync();
             TempData["Success"] = "خبر ثبت شد";
             return RedirectToAction("Index");
-            
-
-            TempData["Error"] = "ثبت نشد";
-            return View(newsItem);
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -70,15 +79,25 @@ namespace NewsSite.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(NewsItem news)
         {
-            if (ModelState.IsValid)
+            if (news.ImageFile != null)
             {
-                _context.Update(news);
-                await _context.SaveChangesAsync();
-                TempData["Success"] = "خبر با موفقیت ویرایش شد";
-                return RedirectToAction("Index");
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(news.ImageFile.FileName);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await news.ImageFile.CopyToAsync(stream);
+                }
+                news.ImagePath = "/images/" + fileName;
             }
+
+            _context.Update(news);
+            await _context.SaveChangesAsync();
+            TempData["Success"] = "خبر با موفقیت ویرایش شد";
+            return RedirectToAction("Index");
+            
             return View(news);
         }
+
 
         public async Task<IActionResult> Delete(int id)
         {

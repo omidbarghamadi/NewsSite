@@ -20,7 +20,7 @@ namespace NewsSite.Controllers
         public async Task<IActionResult> Index()
         {
             var news = await _context.NewsItem
-                .OrderBy(n => n.CreatedAt)
+                .OrderByDescending(n => n.CreatedAt)
                 .ToListAsync();
             return View(news);
         }
@@ -46,7 +46,7 @@ namespace NewsSite.Controllers
             _context.Comment.Add(comment);
             await _context.SaveChangesAsync();
 
-            TempData["CommentSuccessMessage"] = "نظر شما ثبت شد، پس از بررسی نمایش داده خواهد شد.";
+            TempData["CommentSuccessMessage"] = "نظر شما ثبت شد و پس از تأیید نمایش داده خواهد شد.";
             return RedirectToAction("Details", new { id = comment.NewsId });
         }
     }

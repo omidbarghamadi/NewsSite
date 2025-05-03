@@ -2,19 +2,46 @@
 
 <h2>ویرایش خبر</h2>
 
-<form asp-action="Edit">
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
+
     <div class="form-group">
         <label>عنوان</label>
         <input asp-for="Title" class="form-control" />
     </div>
+    <br />
     <div class="form-group">
         <label>خلاصه</label>
         <input asp-for="Summary" class="form-control" />
     </div>
+    <br />
     <div class="form-group">
         <label>متن کامل</label>
         <textarea asp-for="Content" class="form-control"></textarea>
     </div>
-    <button type="submit" class="btn btn-success mt-2">ثبت تغییرات</button>
+    <br />
+    @* نمایش تصویر فعلی اگر وجود دارد *@
+    @if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        <div class="form-group mt-2">
+            <label>تصویر فعلی:</label><br />
+            <img src="@Model.ImagePath" alt="تصویر خبر" style="max-height: 150px;" />
+        </div>
+    }
+    <br />
+    <div class="form-group mt-2">
+        <label asp-for="ImageFile">تغییر تصویر</label>
+        <input asp-for="ImageFile" type="file" class="form-control" />
+        <span asp-validation-for="ImageFile" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group mb-3">
+        <label asp-for="CreatedAt"></label>
+        <input asp-for="CreatedAt"
+               type="datetime-local"
+               class="form-control" />
+        <span asp-validation-for="CreatedAt" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">ثبت تغییرات</button>
 </form>

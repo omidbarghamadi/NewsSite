@@ -1,42 +1,46 @@
 ﻿@model IEnumerable<NewsSite.Models.NewsItem>
 
 <style>
-    .hover-effect {
-        transition: all 0.3s ease-in-out;
-    }
-
-        .hover-effect:hover {
-            background-color: lightgray !important; /* تغییر رنگ بک‌گراند */
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* برجسته شدن */
-            transform: scale(1.02); /* کمی بزرگ‌تر شدن */
-        }
-
     .carousel-indicators {
-        bottom: -30px; /* موقعیت نمایش شماره اسلاید */
+        bottom: -30px;
     }
 
     .carousel-control-prev,
     .carousel-control-next {
-        top: 50%; /* موقعیت عمودی به وسط */
-        transform: translateY(-50%); /* تنظیم دقیق به مرکز */
-        width: 50px; /* عرض دکمه‌ها */
-        height: 50px; /* ارتفاع دکمه‌ها */
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px;
+        height: 50px;
     }
 
     .carousel-control-prev-icon,
     .carousel-control-next-icon {
-        background-color: blue; /* تنظیم رنگ آبی برای دکمه‌ها */
-        border-radius: 50%; /* گرد کردن دکمه‌ها */
+        background-color: blue;
+        border-radius: 50%;
     }
 
+    .carousel-inner {
+        height: 400px;
+    }
+
+    .carousel-item img {
+        max-height: 250px;
+        width: auto;
+        object-fit: contain;
+    }
+
+    .news-img {
+        max-height: 250px;
+        width: auto;
+        object-fit: contain;
+    }
 </style>
 
 <div class="container mt-4">
     <h1 dir="rtl" class="text-right mb-4">اخبار مهم</h1>
 
-    <!-- اسلایدر -->
+    <!-- اسلایدر اخبار -->
     <div id="newsCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
-        <!-- شماره اسلایدها -->
         <div class="carousel-indicators">
             @for (int i = 0; i < Model.Take(3).Count(); i++)
             {
@@ -50,16 +54,23 @@
                 <div class="carousel-item @(news.index == 0 ? "active" : "")">
                     <a href="@Url.Action("Details", "Home", new { id = news.value.Id })" style="text-decoration: none; color: black;">
                         <div class="text-center p-4 bg-light rounded shadow">
+                            @if (!string.IsNullOrEmpty(news.value.ImagePath))
+                            {
+                                <img src="@news.value.ImagePath" alt="عکس خبر" class="news-img mx-auto d-block" />
+                            }
+                            else
+                            {
+                                <img src="/images/noimage.png" alt="بدون تصویر" class="news-img mx-auto d-block" />
+                            }
                             <h2>@news.value.Title</h2>
                             <p>@news.value.Summary</p>
-                            <p><small>تاریخ و زمان: @news.value.CreatedAt.ToString("yyyy/MM/dd   HH:mm")</small></p>
+                            <p><small>تاریخ انتشار: @news.value.CreatedAt.ToString("yyyy/MM/dd   HH:mm")</small></p>
                         </div>
                     </a>
                 </div>
             }
         </div>
 
-        <!-- دکمه‌های چپ و راست -->
         <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">قبلی</span>
@@ -78,13 +89,27 @@
         {
             <div class="col-md-6 mb-4">
                 <a href="@Url.Action("Details", "Home", new { id = news.Id })" style="text-decoration: none; color: black;">
-                    <div dir="rtl" class="text-right border rounded p-3 shadow-sm bg-light h-100 hover-effect">
-                        <h2>@news.Title</h2>
-                        <p>@news.Summary</p>
-                        <p><small>تاریخ و زمان: @news.CreatedAt.ToString("yyyy/MM/dd   HH:mm")</small></p>
+                    <div dir="rtl" class="d-flex align-items-start border rounded p-3 shadow-sm bg-light h-100 hover-effect" style="gap: 15px;">
+                        <img src="@news.ImagePath" alt="تصویر خبر" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
+                        <div class="flex-grow-1">
+                            <h2 class="h5">@news.Title</h2>
+                            <p class="mb-1">@news.Summary</p>
+                            <p class="mb-0"><small>تاریخ انتشار: @news.CreatedAt.ToString("yyyy/MM/dd   HH:mm")</small></p>
+                        </div>
                     </div>
                 </a>
             </div>
         }
     </div>
 </div>
+
+<script>
+    // اطمینان از فعال‌سازی صحیح اسلایدر
+    var newsCarousel = document.querySelector('#newsCarousel');
+    if (newsCarousel) {
+        var carousel = new bootstrap.Carousel(newsCarousel, {
+            interval: 5000, // زمان بین اسلایدها
+            ride: 'carousel'
+        });
+    }
+</script>

@@ -4,22 +4,25 @@
     var pendingCounts = ViewBag.PendingCounts as Dictionary<int, int>;
 }
 <html dir="rtl">
-<h1 >مدیریت اخبار</h1>
+<h1>مدیریت اخبار</h1>
 <br />
 <p><a style="font-weight: bold" href="@Url.Action("Create")" class="btn btn-success">افزودن خبر جدید</a></p>
+
 @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success">@TempData["Success"]</div>
-    }
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
 @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger">@TempData["Error"]</div>
-    }
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
 <table class="table">
     <thead>
         <tr>
+            <th>تصویر</th>
             <th>عنوان</th>
-            <th>تاریخ</th>
+            <th>تاریخ انتشار</th>
             <th>عملیات</th>
             <th>کامنت های تایید شده</th>
             <th>کامنت های در حال بررسی</th>
@@ -29,12 +32,22 @@
         @foreach (var news in Model)
         {
             <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(news.ImagePath))
+                    {
+                        <img src="@news.ImagePath" alt="تصویر" style="height: 60px; width: auto;" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">بدون تصویر</span>
+                    }
+                </td>
                 <td>@news.Title</td>
                 <td>@news.CreatedAt.ToString("yyyy/MM/dd HH:mm")</td>
                 <td>
                     <a href="@Url.Action("Edit", new { id = news.Id })" class="btn btn-sm btn-warning">ویرایش</a>
                     <a href="@Url.Action("Delete", new { id = news.Id })" class="btn btn-sm btn-danger">حذف</a>
-                    <a href="@Url.Action("Comments", new { newsId  = news.Id })" class="btn btn-sm btn-info">کامنت‌ها</a>
+                    <a href="@Url.Action("Comments", new { newsId = news.Id })" class="btn btn-sm btn-info">کامنت‌ها</a>
                 </td>
                 <td>@(approvedCounts.ContainsKey(news.Id) ? approvedCounts[news.Id] : 0)</td>
                 <td>@(pendingCounts.ContainsKey(news.Id) ? pendingCounts[news.Id] : 0)</td>

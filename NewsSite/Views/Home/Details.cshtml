@@ -7,9 +7,20 @@
 
 <div dir="rtl" class="container mt-4 text-right">
     <h2 class="mb-3">@Model.Title</h2>
+
+    @if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        <div class="mb-3">
+            <img src="@Model.ImagePath" alt="تصویر خبر" class="img-fluid rounded" style="max-height: 300px;" />
+        </div>
+    }
+
     <p class="text-muted">تاریخ انتشار: @Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")</p>
     <hr />
-    <p><strong>خلاصه:</strong> @Model.Summary</p>
+
+    <p><strong>خلاصه:</strong></p>
+    <p>@Model.Summary</p>
+
     <p><strong>متن کامل:</strong></p>
     <p>@Model.Content</p>
 
@@ -20,6 +31,7 @@
             @TempData["CommentSuccessMessage"]
         </div>
     }
+
     <h4 class="mt-5">ارسال نظر</h4>
     <form asp-action="AddComment" method="post">
         <input type="hidden" name="newsId" value="@Model.Id" />
@@ -31,22 +43,21 @@
 
         <div class="form-group mt-3">
             <label>متن نظر:</label>
-            <textarea name="text" class="form-control" required></textarea>
+            <textarea name="text" class="form-control" rows="4" required></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">ارسال نظر</button>
     </form>
 
     <hr class="mt-5" />
-
     <h4 class="mt-4">نظرات کاربران</h4>
     @if (Model.Comments != null && Model.Comments.Any(c => c.IsApproved))
     {
         foreach (var comment in Model.Comments.Where(c => c.IsApproved).OrderByDescending(c => c.CreatedAt))
         {
-            <div class="border rounded p-3 my-2">
-                نویسنده: <strong>@comment.Authors</strong>
-                <p>@comment.Text</p>
+            <div class="border rounded p-3 my-2 bg-light">
+                <div><strong>نویسنده:</strong> @comment.Authors</div>
+                <p class="mt-2">@comment.Text</p>
                 <small class="text-muted">@comment.CreatedAt.ToString("yyyy/MM/dd HH:mm")</small>
             </div>
         }

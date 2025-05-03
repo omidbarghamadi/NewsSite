@@ -1,4 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema; // اضافه‌شده
+using Microsoft.AspNetCore.Http;                  // اضافه‌شده
 
 namespace NewsSite.Models
 {
@@ -18,9 +22,13 @@ namespace NewsSite.Models
         [Display(Name = "تاریخ ثبت")]
         public DateTime CreatedAt { get; set; }
 
+        [Display(Name = "مسیر تصویر")]
+        public string? ImagePath { get; set; }    // فیلد جدید
+
         public List<Comment> Comments { get; set; }
 
-        //[NotMapped]
-        //public IFormFile? ImageFile { get; set; }
+        [NotMapped]
+        [Display(Name = "انتخاب تصویر")]
+        public IFormFile? ImageFile { get; set; }  // فیلد آپلود
     }
 }
