@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<NewsSite.Models.Comment>
+
+<html dir="rtl">
 @if (TempData["Success"] != null)
 {
     <div class="alert alert-success">@TempData["Success"]</div>
@@ -7,7 +9,6 @@
 {
     <div class="alert alert-danger">@TempData["Error"]</div>
 }
-<html dir="rtl">
 <h1>مدیریت کامنت‌ها</h1>
 
 <table class="table table-bordered">

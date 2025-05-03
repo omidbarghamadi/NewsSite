@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NewsSite.Data;
 using NewsSite.Models;
@@ -46,6 +46,7 @@ namespace NewsSite.Controllers
             _context.Comment.Add(comment);
             await _context.SaveChangesAsync();
 
+            TempData["CommentSuccessMessage"] = "نظر شما ثبت شد، پس از بررسی نمایش داده خواهد شد.";
             return RedirectToAction("Details", new { id = comment.NewsId });
         }
     }

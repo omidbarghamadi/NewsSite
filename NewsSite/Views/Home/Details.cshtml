@@ -7,22 +7,19 @@
 
 <div dir="rtl" class="container mt-4 text-right">
     <h2 class="mb-3">@Model.Title</h2>
-    <p class="text-muted">@Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")</p>
+    <p class="text-muted">تاریخ انتشار: @Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")</p>
     <hr />
     <p><strong>خلاصه:</strong> @Model.Summary</p>
     <p><strong>متن کامل:</strong></p>
     <p>@Model.Content</p>
 
     <hr />
-
-    @* نمایش پیام موفقیت ثبت نظر *@
-    @if (TempData["Success"] != null)
+    @if (TempData["CommentSuccessMessage"] != null)
     {
-        <div class="alert alert-success">
-            @TempData["Success"]
+        <div class="alert alert-success" role="alert">
+            @TempData["CommentSuccessMessage"]
         </div>
     }
-
     <h4 class="mt-5">ارسال نظر</h4>
     <form asp-action="AddComment" method="post">
         <input type="hidden" name="newsId" value="@Model.Id" />

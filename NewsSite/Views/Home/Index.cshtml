@@ -1,11 +1,90 @@
 ﻿@model IEnumerable<NewsSite.Models.NewsItem>
 
-<h1 dir="rtl" class="container mt-4 text-right">اخبار</h1>
-@foreach (var news in Model)
-{
-    <div dir="rtl" class="container mt-4 text-right" class="news-summary">
-        <h2><a href="@Url.Action("Details", "Home", new { id = news.Id })">@news.Title</a></h2>
-        <p>@news.Summary</p>
-        <p><small>تاریخ و زمان: @news.CreatedAt.ToString("yyyy/MM/dd   HH:mm")</small></p>
+<style>
+    .hover-effect {
+        transition: all 0.3s ease-in-out;
+    }
+
+        .hover-effect:hover {
+            background-color: lightgray !important; /* تغییر رنگ بک‌گراند */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* برجسته شدن */
+            transform: scale(1.02); /* کمی بزرگ‌تر شدن */
+        }
+
+    .carousel-indicators {
+        bottom: -30px; /* موقعیت نمایش شماره اسلاید */
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        top: 50%; /* موقعیت عمودی به وسط */
+        transform: translateY(-50%); /* تنظیم دقیق به مرکز */
+        width: 50px; /* عرض دکمه‌ها */
+        height: 50px; /* ارتفاع دکمه‌ها */
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: blue; /* تنظیم رنگ آبی برای دکمه‌ها */
+        border-radius: 50%; /* گرد کردن دکمه‌ها */
+    }
+
+</style>
+
+<div class="container mt-4">
+    <h1 dir="rtl" class="text-right mb-4">اخبار مهم</h1>
+
+    <!-- اسلایدر -->
+    <div id="newsCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+        <!-- شماره اسلایدها -->
+        <div class="carousel-indicators">
+            @for (int i = 0; i < Model.Take(3).Count(); i++)
+            {
+                <button type="button" data-bs-target="#newsCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")" aria-label="Slide @(i + 1)"></button>
+            }
+        </div>
+
+        <div class="carousel-inner">
+            @foreach (var news in Model.Take(3).Select((value, index) => new { value, index }))
+            {
+                <div class="carousel-item @(news.index == 0 ? "active" : "")">
+                    <a href="@Url.Action("Details", "Home", new { id = news.value.Id })" style="text-decoration: none; color: black;">
+                        <div class="text-center p-4 bg-light rounded shadow">
+                            <h2>@news.value.Title</h2>
+                            <p>@news.value.Summary</p>
+                            <p><small>تاریخ و زمان: @news.value.CreatedAt.ToString("yyyy/MM/dd   HH:mm")</small></p>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+
+        <!-- دکمه‌های چپ و راست -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">قبلی</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#newsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">بعدی</span>
+        </button>
     </div>
-}
+
+    <hr />
+    <h4 dir="rtl" class="text-right mb-4">تمام خبرها</h4>
+    <!-- لیست اخبار -->
+    <div class="row justify-content-center">
+        @foreach (var news in Model)
+        {
+            <div class="col-md-6 mb-4">
+                <a href="@Url.Action("Details", "Home", new { id = news.Id })" style="text-decoration: none; color: black;">
+                    <div dir="rtl" class="text-right border rounded p-3 shadow-sm bg-light h-100 hover-effect">
+                        <h2>@news.Title</h2>
+                        <p>@news.Summary</p>
+                        <p><small>تاریخ و زمان: @news.CreatedAt.ToString("yyyy/MM/dd   HH:mm")</small></p>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</div>

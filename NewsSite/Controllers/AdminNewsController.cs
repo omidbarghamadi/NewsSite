@@ -50,8 +50,6 @@ namespace NewsSite.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(NewsItem newsItem)
         {
-            if (newsItem.CreatedAt == null)
-                newsItem.CreatedAt = DateTime.Now;
             _context.NewsItem.Add(newsItem);
             await _context.SaveChangesAsync();
             TempData["Success"] = "خبر ثبت شد";
