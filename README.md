@@ -2,7 +2,7 @@
 
 # News Management System (ASP.NET Core MVC)
 
-This is a web-based News Management System built using **ASP.NET Core MVC** and **MySQL**. The application allows admins to manage news articles and user comments efficiently through a clean and responsive admin panel.
+This is a web-based News Management System built using **ASP.NET Core MVC** and **SQL Server 2022**. The application allows admins to manage news articles and user comments efficiently through a clean and responsive admin panel.
 
 ### ✨ Features
 
@@ -17,7 +17,7 @@ This is a web-based News Management System built using **ASP.NET Core MVC** and 
 
 * ASP.NET Core MVC
 * Entity Framework Core
-* MySQL
+* SQL Server 2022
 * Bootstrap 5
 * C#
 
@@ -27,7 +27,7 @@ This is a web-based News Management System built using **ASP.NET Core MVC** and 
 
 # سامانه مدیریت خبر (با ASP.NET Core MVC)
 
-این پروژه یک **سامانه تحت وب مدیریت خبر** است که با استفاده از **ASP.NET Core MVC** و پایگاه داده **MySQL** توسعه داده شده است. این سیستم به مدیران اجازه می‌دهد تا اخبار و نظرات کاربران را از طریق یک پنل مدیریتی ساده و واکنش‌گرا مدیریت کنند.
+این پروژه یک **سامانه تحت وب مدیریت خبر** است که با استفاده از **ASP.NET Core MVC** و پایگاه داده **SQL Server 2022** توسعه داده شده است. این سیستم به مدیران اجازه می‌دهد تا اخبار و نظرات کاربران را از طریق یک پنل مدیریتی ساده و واکنش‌گرا مدیریت کنند.
 
 ### ✨ امکانات
 
@@ -42,6 +42,6 @@ This is a web-based News Management System built using **ASP.NET Core MVC** and 
 
 * ASP.NET Core MVC
 * Entity Framework Core
-* MySQL
+* SQL Server 2022
 * Bootstrap 5
 * زبان C#
